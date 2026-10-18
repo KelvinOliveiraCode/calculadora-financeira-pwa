@@ -1,72 +1,94 @@
-# Financial Calculator PWA
 
-Offline-first financial calculators: compound interest, amortization, and budget. React 18, TypeScript, service worker and manifest to work without a network.
+# calculadora-financeira-pwa
 
-## What it does
+![language: JavaScript/TypeScript](https://img.shields.io/badge/language-JS-TS-yellow?logo=javascript)   ![status: done](https://img.shields.io/badge/status-done-green)   ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
 
-- Compound interest: amount and interest with annual, semiannual, quarterly, monthly, or daily compounding.
-- Amortization: monthly payment, total to pay, total interest, and an amortization table for the first 12 months.
-- Budget: monthly income, expense list, balance, and savings rate.
+## Summary
 
-Everything runs in the browser. No data is sent to any server.
+Web application in JavaScript/TypeScript. Projeto funcional, calculadora-financeira-pwa
 
-## How to use
+## Problem / why it exists
 
-Requirements: Node.js 18 or higher and npm.
+The project delivers a web interface or utility for a specific scope, with focus on the browser as runtime and no dependency on its own server.
 
-Install dependencies:
+## Architecture
 
-npm install
+- Presentation layer: components and pages that render the interface.
+- Logic layer: functions and hooks that process data and state.
+- Communication: HTTP requests to external APIs or local data, when applicable.
 
-Run in development:
-
-npm run dev
-
-Opens http://localhost:5173.
-
-Production build:
-
-npm run build
-
-Generates the dist/ folder with the optimized app and the service worker.
-
-Local preview of the build:
-
-npm run preview
-
-Tests:
-
-npm test
-
-Runs 7 unit tests of the calculation functions with vitest. Tests run locally, without network.
-
-## Works offline
-
-Yes. The service worker (public/service-worker.js) caches the app shell (/, /index.html, /manifest.json) on install and caches everything that loads successfully. Without network, the browser loads the shell from cache and the calculators keep working.
-
-The file public/manifest.json lets you install the PWA as a standalone application.
+The build is done with Vite (or equivalent tool), generating static files ready for hosting.
 
 ## Technologies
 
-React 18, TypeScript (strict), Vite, Vitest, jsdom, and Testing Library.
+- JavaScript / TypeScript
+- react
+- react-dom
+- @vitejs/plugin-react
+- typescript
+- vite
+- vitest
+- jsdom
+- @testing-library/react
+- @testing-library/jest-dom
+- @types/react
+- @types/react-dom
+
+- No CI configured in this repository.
+
+The repository contains automated tests.
+
+## What it does
+
+Projeto funcional, calculadora-financeira-pwa
+
+## How to run
+
+Requirements: Node.js and npm (or yarn/pnpm).
+
+```
+# install dependencies
+npm install
+
+# run in development
+vite
+
+# production build
+vite build && tsc --noEmit
+
+# run tests
+vitest run
+```
 
 ## Project structure
 
-- index.html — entry point
-- public/manifest.json — PWA manifest
-- public/service-worker.js — offline-first service worker
-- public/icon-192.png, public/icon-512.png — icons
-- src/main.tsx — renders React and registers the service worker in production
-- src/App.tsx — tab navigation between the three calculators
-- src/components/ — CalculatorCard, CompoundInterest, Amortization, Budget
-- src/utils/calculations.ts — pure calculation functions
-- src/utils/calculations.test.ts — unit tests
-- src/index.css — styles
+- src/ (11 arquivo(s))
+- public/ (4 arquivo(s))
+- .gitignore, BRIEF.md, index.html, package-lock.json, package.json, README.en.md, README.md, tsconfig.json, vite.config.ts
+
+
+## Trade-offs and decisions
+
+- Static build: easy to host (GitHub Pages, Vercel, Netlify) without a server.
+- Minimal dependencies to reduce maintenance surface.
+- Browser as the only runtime required.
+
+## Known limitations
+
+- Runs in the browser; depends on internet connection for external resources.
+
+
+## Tests
+
+```
+vitest run
+```
 
 ## License
 
-MIT
+Distributed under the MIT License. See the `LICENSE` file in this repository.
 
 ## Author
 
-Kelvin Oliveira
+Kelvin Oliveira, https://github.com/KelvinOliveiraCode
+Portfolio: https://kelvinoliveiracode.github.io/portfolio/
