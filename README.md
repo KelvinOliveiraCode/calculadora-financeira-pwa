@@ -1,72 +1,93 @@
-# Calculadora Financeira PWA
+# calculadora-financeira-pwa
 
-Calculadoras financeiras offline-first: juros compostos, amortizacao e orcamento. React 18, TypeScript, service worker e manifest para funcionar sem rede.
+![JavaScript/TypeScript](https://img.shields.io/badge/JS-TS-yellow?logo=javascript)   ![status: concluido](https://img.shields.io/badge/status-concluido-green)   ![licenca: MIT](https://img.shields.io/badge/licenca-MIT-blue)
 
-## O que faz
+## Resumo
 
-- Juros compostos: calcula montante e juros com capitalizacao anual, semestral, trimestral, mensal ou diaria.
-- Amortizacao: parcela mensal, total a pagar, total de juros e tabela de amortizacao dos primeiros 12 meses.
-- Orcamento: renda mensal, lista de despesas, saldo e taxa de poupanca.
+Aplicacao web em JavaScript/TypeScript. Projeto funcional, calculadora-financeira-pwa
 
-Tudo roda no navegador. Nao envia dados a servidor algum.
+## Problema / por que existe
 
-## Como usar
+O projeto entrega uma interface ou utilitario web para um recorte especifico, com foco em navegador como ambiente de execucao e sem dependencia de servidor proprio.
 
-Requisitos: Node.js 18 ou superior e npm.
+## Arquitetura
 
-Instalar dependencias:
+- Camada de apresentacao: componentes e paginas que renderizam a interface.
+- Camada de logica: funcoes e hooks que processam dados e estado.
+- Comunicacao: requisicoes HTTP a APIs externas ou dados locais, quando aplicavel.
 
-npm install
-
-Rodar em desenvolvimento:
-
-npm run dev
-
-Abre http://localhost:5173.
-
-Build de producao:
-
-npm run build
-
-Gera a pasta dist/ com o app otimizado e o service worker.
-
-Preview local da build:
-
-npm run preview
-
-Testes:
-
-npm test
-
-Executa 7 testes unitarios das funcoes de calculo com vitest. Os testes rodam localmente, sem rede.
-
-## Funciona offline
-
-Sim. O service worker (public/service-worker.js) armazena em cache a casca do aplicativo (/, /index.html, /manifest.json) na instalacao e coloca em cache tudo o que carregar com sucesso. Sem rede, o navegador carrega a casca do cache e as calculadoras continuam funcionando.
-
-O arquivo public/manifest.json permite instalar o PWA como aplicativo autonomo.
+O build e feito com Vite (ou ferramenta equivalente), gerando arquivos estaticos prontos para hospedagem.
 
 ## Tecnologias
 
-React 18, TypeScript (strict), Vite, Vitest, jsdom e Testing Library.
+- JavaScript / TypeScript
+- react
+- react-dom
+- @vitejs/plugin-react
+- typescript
+- vite
+- vitest
+- jsdom
+- @testing-library/react
+- @testing-library/jest-dom
+- @types/react
+- @types/react-dom
+
+- Sem CI configurado neste repositorio.
+
+O repositorio contem testes automatizados.
+
+## O que faz
+
+Projeto funcional, calculadora-financeira-pwa
+
+## Como rodar
+
+Requisitos: Node.js e npm (ou yarn/pnpm).
+
+```
+# instalar dependencias
+npm install
+
+# rodar em desenvolvimento
+vite
+
+# build para producao
+vite build && tsc --noEmit
+
+# rodar testes
+vitest run
+```
 
 ## Estrutura do projeto
 
-- index.html — ponto de entrada
-- public/manifest.json — manifest do PWA
-- public/service-worker.js — service worker offline-first
-- public/icon-192.png, public/icon-512.png — icones
-- src/main.tsx — renderiza o React e registra o service worker em producao
-- src/App.tsx — navegacao por abas entre as tres calculadoras
-- src/components/ — CalculadoraCard, CompoundInterest, Amortization, Budget
-- src/utils/calculations.ts — funcoes puras de calculo
-- src/utils/calculations.test.ts — testes unitarios
-- src/index.css — estilo
+- src/ (11 arquivo(s))
+- public/ (4 arquivo(s))
+- .gitignore, BRIEF.md, index.html, package-lock.json, package.json, README.en.md, README.md, tsconfig.json, vite.config.ts
 
-## Licenca
 
-MIT
+## Trade-offs e decisões
+
+- Build estatico: facil de hospedar (GitHub Pages, Vercel, Netlify) sem servidor.
+- Dependencias minimas para reduzir superficie de manutencao.
+- Navegador como unico ambiente de execucao necessario.
+
+## Limitações conhecidas
+
+- Funciona no navegador; depende de conexao a internet para recursos externos.
+
+
+## Testes
+
+```
+vitest run
+```
+
+## Licença
+
+Distribuído sob a licenca MIT. Consulte o arquivo `LICENSE` do repositorio.
 
 ## Autor
 
-Kelvin Oliveira
+Kelvin Oliveira, https://github.com/KelvinOliveiraCode
+Portfolio: https://kelvinoliveiracode.github.io/portfolio/
