@@ -1,127 +1,99 @@
 # calculadora-financeira-pwa
 
-<div align="center">
+**English** · [Português (Brasil)](README.md)
 
-[English](README.en.md) · **Português (Brasil)**
-
-</div>
-
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![React 18](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/) [![MIT License](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)](LICENSE)
-
-### Projeto funcional ,  calculadora-financeira-pwa
-
----
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=flat-square&logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react) ![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite) ![PWA](https://img.shields.io/badge/PWA-offline--first-5A0FC8?style=flat-square&logo=pwa) ![Vitest](https://img.shields.io/badge/Vitest-7%20testes-6E9F18?style=flat-square&logo=vitest) ![MIT](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)
 
 ## O que é
 
-Projeto funcional ,  calculadora-financeira-pwa
+**PWA offline-first de calculadoras financeiras**: três ferramentas de controle pessoal — **juros compostos**, **amortização** e **orçamento** — numa SPA React 18 + TypeScript que **instala como app e funciona sem internet** (Service Worker + manifest em `public/`). A lógica financeira é pura e testada (`src/utils/calculations.ts`).
 
----
+## Status
 
-## Início Rápido
+PWA funcional (protótipo); **7 testes passando** (calculations) e build de produção confirmado (~48 kB gzip).
 
-```bash
-# Clone e entre
-git clone https://github.com/KelvinOliveiraCode/<repo>.git
-cd <repo>
+## Funcionalidades
 
-# Instale dependências
-npm install
+- **Juros compostos** (`components/CompoundInterest.tsx`): aporte inicial + aportes mensais + taxa → projeção.
+- **Amortização** (`components/Amortization.tsx`): parcelas, saldo e juros acumulados.
+- **Orçamento** (`components/Budget.tsx`): entradas/saídas por período.
+- **Cálculos puros** (`utils/calculations.ts`): funções financeiras testadas sem DOM (`calculations.test.ts`).
+- **Instalável/offline** (`public/manifest.json`, `public/service-worker.js`, `src/registerSW.ts`): ícones 192/512, cache do shell.
 
-# Servidor de desenvolvimento
-npm run dev
+## Arquitetura
 
-# Build para produção
-npm run build
+SPA React (Vite) com camadas: lógica pura em `utils/`, UI em `components/` (`CalculatorCard` como moldura), registro do Service Worker em `main.tsx`/`registerSW.ts`.
 
-# Execute os testes
-npm test
+```mermaid
+flowchart LR
+    CALC[utils/calculations.ts - juros/amortização/orçamento] --> CI[CompoundInterest] & AM[Amortization] & BU[Budget]
+    CI & AM & BU --> CC[CalculatorCard]
+    CC --> APP[App.tsx]
+    SW[service-worker.js + manifest] --> PWA[instalável/offline]
 ```
 
-## Como funciona
+## Stack
 
-Arquitetura de componente em arquivo único (`App.tsx`): toda a UI, estado e lógica vivem em um arquivo para simplicidade de deploy e build zero-config.
+- React 18.3, TypeScript ~5.6, Tailwind
+- Vite 5.4 (build), Vitest 2.1 (testes)
 
-Decisões arquiteturais principais:
-- **Estado global** via `useState` + `useMemo` (evita overhead do Context API)
-- **Agregações memoizadas** para gráficos e insights
-- **Dados mock in-line** como constantes TypeScript para prototipagem sem backend
-- **IA baseada em regras** (`getAIResponse`) ,  determinística, offline, custo zero
+## Estrutura do repositório
 
----
+```
+calculadora-financeira-pwa/
+├── src/
+│   ├── components/          # CompoundInterest, Amortization, Budget, CalculatorCard
+│   ├── utils/calculations.ts + calculations.test.ts
+│   ├── registerSW.ts · main.tsx · App.tsx
+├── public/                  # manifest.json, service-worker.js, ícones 192/512
+├── index.html · vite.config.ts
+└── package.json
+```
 
-## Capacidades
+## Pré-requisitos e instalação
 
-| Capacidade | Descrição |
-|------------|-------------|
-| Dashboard | 6 cards de métricas (Saldo, Receitas, Despesas, Economia, Investimentos, Patrimônio) |
-| Fluxo de Caixa | Gráfico de barras (7d/30d) com Recharts ,  Receitas, Despesas, Saldo por período |
-| Orçamentos | Orçamentos por categoria com barras de progresso, alertas de estouro |
-| Metas | Anéis de progresso com cálculo de economia mensal e contagem regressiva |
-| Assistente IA | Chat baseado em regras (getAIResponse) ,  análise de gastos, dicas, projeções |
-| Insights | Alertas automáticos: picos de delivery, crescimento patrimonial, breakdown por categoria |
-| Transações | Adicionar/editar receitas/despesas com categorias, tags, seletor de data |
-| Persistência | localStorage ,  estado sobrevive a reload, zero backend |
+Node.js ≥ 18.
 
+```bash
+npm install
+```
 
----
+## Como executar
 
+```bash
+npm run dev        # dev server
+npm run build      # build de produção
+npm run preview    # serve o build (aí o SW/PWA é exercitado)
+```
 
+## Testes e qualidade
 
----
+Comandos reais (verificados pelo agente):
 
-## Perguntas Frequentes
+```bash
+npm test
+# Test Files  1 passed (1) · Tests  7 passed (7)
 
-<details>
-<summary><strong>O que é este projeto?</strong></summary>
+npm run build
+# ✓ built in ~1.3s
+```
 
-Um estudo/projeto em React/TypeScript demonstrando conceitos fundamentais.
+## Decisões técnicas e trade-offs
 
-</details>
+- **Service Worker à mão** (sem plugin vite-pwa): controle total e zero dependências extra; em troca, caching manual.
+- **Lógica financeira pura em `utils/`**: testável sem renderizar; a UI só apresenta.
 
-<details>
-<summary><strong>Como executar?</strong></summary>
+## Limitações conhecidas e roadmap
 
-Veja [Início Rápido](#início-rápido) para comandos copiáveis.
+- Sem persistência de cenários (cada cálculo é efêmero).
+- Amortização segue o modelo padrão (sem tabelas SAC/PRICE configuráveis além do padrão implementado).
 
-</details>
+## Processo de desenvolvimento
 
-<details>
-<summary><strong>Há testes?</strong></summary>
+Projeto individual de Kelvin Oliveira, construído com agentes de IA orquestrados e revisado pelo autor.
 
-Nenhum teste automatizado neste repositório.
+## Licença e autor
 
-</details>
+MIT — Copyright (c) 2026 Kelvin Oliveira.
 
-<details>
-<summary><strong>Posso usar em produção?</strong></summary>
-
-Este é um **projeto de estudo/portfólio**. Revise e endureça (auth, persistência, monitoramento, etc.) antes de usar em produção.
-
-</details>
-
-
-
----
-
-## Documentação
-
-- **Código-Fonte** ,  Navegue pelo diretório `src/` para detalhes de implementação
-- **Referência da API** ,  Tipos TypeScript no fonte
-- **Diagrama de Arquitetura** ,  Veja [architecture.mermaid](docs/architecture.mermaid) (se presente)
-- **Changelog** ,  [CHANGELOG.md](CHANGELOG.md) (se presente)
-- **Contribuindo** ,  [CONTRIBUTING.md](CONTRIBUTING.md) (se presente)
-
-## Licença
-
-[MIT](LICENSE) ,  Kelvin Oliveira
-
----
-
-<div align="center">
-
-**Construído com** · TypeScript + React + Vite + Tailwind
-
-**Autor** · [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
-
-</div>
+**Autor**: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfólio](https://kelvinoliveiracode.github.io/portfolio/)
