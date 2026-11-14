@@ -6,7 +6,7 @@
 
 ## What it is
 
-**An offline-first personal-finance calculators PWA**: three tools — **compound interest**, **amortisation** and **budget** — in a React 18 + TypeScript SPA that **installs as an app and works offline** (Service Worker + manifest in `public/`). The financial logic is pure and tested (`src/utils/calculations.ts`).
+**An offline-first personal-finance calculators PWA**: three tools, **compound interest**, **amortisation** and **budget**, in a React 18 + TypeScript SPA that **installs as an app and works offline** (Service Worker + manifest in `public/`). The financial logic is pure and tested (`src/utils/calculations.ts`).
 
 ## Status
 
@@ -39,7 +39,7 @@ flowchart LR
 
 ## Repository layout
 
-```
+```text
 calculadora-financeira-pwa/
 ├── src/
 │   ├── components/          # CompoundInterest, Amortization, Budget, CalculatorCard
@@ -75,13 +75,13 @@ npm test
 # Test Files  1 passed (1) · Tests  7 passed (7)
 
 npm run build
-# ✓ built in ~1.3s
+# built in ~1.3s
 ```
 
 ## Technical decisions and trade-offs
 
 - **Hand-rolled Service Worker** (no vite-pwa plugin): full control and zero extra dependencies; the trade-off is manual caching.
-- **Pure financial logic in `utils/`**: testable without rendering; the UI only presents.
+- Pure financial logic in `utils/`: testable without rendering; the UI only presents.
 
 ## Known limitations and roadmap
 
@@ -94,6 +94,6 @@ An individual project by Kelvin Oliveira, built with orchestrated AI agents and 
 
 ## License and author
 
-MIT — Copyright (c) 2026 Kelvin Oliveira.
+MIT. Copyright (c) 2026 Kelvin Oliveira.
 
 **Author**: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)

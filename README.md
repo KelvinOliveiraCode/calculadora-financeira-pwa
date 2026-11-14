@@ -6,7 +6,7 @@
 
 ## O que é
 
-**PWA offline-first de calculadoras financeiras**: três ferramentas de controle pessoal — **juros compostos**, **amortização** e **orçamento** — numa SPA React 18 + TypeScript que **instala como app e funciona sem internet** (Service Worker + manifest em `public/`). A lógica financeira é pura e testada (`src/utils/calculations.ts`).
+**PWA offline-first de calculadoras financeiras**: três ferramentas de controle pessoal, **juros compostos**, **amortização** e **orçamento**, numa SPA React 18 + TypeScript que **instala como app e funciona sem internet** (Service Worker + manifest em `public/`). A lógica financeira é pura e testada (`src/utils/calculations.ts`).
 
 ## Status
 
@@ -39,7 +39,7 @@ flowchart LR
 
 ## Estrutura do repositório
 
-```
+```text
 calculadora-financeira-pwa/
 ├── src/
 │   ├── components/          # CompoundInterest, Amortization, Budget, CalculatorCard
@@ -75,13 +75,13 @@ npm test
 # Test Files  1 passed (1) · Tests  7 passed (7)
 
 npm run build
-# ✓ built in ~1.3s
+# built in ~1.3s
 ```
 
 ## Decisões técnicas e trade-offs
 
 - **Service Worker à mão** (sem plugin vite-pwa): controle total e zero dependências extra; em troca, caching manual.
-- **Lógica financeira pura em `utils/`**: testável sem renderizar; a UI só apresenta.
+- Lógica financeira pura em `utils/`: testável sem renderizar; a UI só apresenta.
 
 ## Limitações conhecidas e roadmap
 
@@ -94,6 +94,6 @@ Projeto individual de Kelvin Oliveira, construído com agentes de IA orquestrado
 
 ## Licença e autor
 
-MIT — Copyright (c) 2026 Kelvin Oliveira.
+MIT. Copyright (c) 2026 Kelvin Oliveira.
 
 **Autor**: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfólio](https://kelvinoliveiracode.github.io/portfolio/)
