@@ -1,127 +1,99 @@
 # calculadora-financeira-pwa
 
-<div align="center">
-
 **English** · [Português (Brasil)](README.md)
 
-</div>
-
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![React 18](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/) [![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/) [![MIT License](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)](LICENSE)
-
-### Projeto funcional ,  calculadora-financeira-pwa
-
----
+![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=flat-square&logo=typescript&logoColor=white) ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react) ![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite) ![PWA](https://img.shields.io/badge/PWA-offline--first-5A0FC8?style=flat-square&logo=pwa) ![Vitest](https://img.shields.io/badge/Vitest-7%20tests-6E9F18?style=flat-square&logo=vitest) ![MIT](https://img.shields.io/badge/License-MIT-f4c430?style=flat-square)
 
 ## What it is
 
-Projeto funcional ,  calculadora-financeira-pwa
+**An offline-first personal-finance calculators PWA**: three tools — **compound interest**, **amortisation** and **budget** — in a React 18 + TypeScript SPA that **installs as an app and works offline** (Service Worker + manifest in `public/`). The financial logic is pure and tested (`src/utils/calculations.ts`).
 
----
+## Status
 
-## Quick Start
+A working PWA (prototype); **7 tests passing** (calculations) with a confirmed production build (~48 kB gzip).
 
-```bash
-# Clone and enter
-git clone https://github.com/KelvinOliveiraCode/<repo>.git
-cd <repo>
+## Features
 
-# Install dependencies
-npm install
+- **Compound interest** (`components/CompoundInterest.tsx`): initial deposit + monthly contributions + rate → projection.
+- **Amortisation** (`components/Amortization.tsx`): instalments, balance and accrued interest.
+- **Budget** (`components/Budget.tsx`): income/expenses over a period.
+- **Pure calculations** (`utils/calculations.ts`): financial functions tested without a DOM (`calculations.test.ts`).
+- **Installable/offline** (`public/manifest.json`, `public/service-worker.js`, `src/registerSW.ts`): 192/512 icons, app-shell cache.
 
-# Development server
-npm run dev
+## Architecture
 
-# Production build
-npm run build
+A React SPA (Vite) with layers: pure logic in `utils/`, UI in `components/` (`CalculatorCard` as the frame), Service Worker registration in `main.tsx`/`registerSW.ts`.
 
-# Run tests
-npm test
+```mermaid
+flowchart LR
+    CALC[utils/calculations.ts - interest/amortisation/budget] --> CI[CompoundInterest] & AM[Amortization] & BU[Budget]
+    CI & AM & BU --> CC[CalculatorCard]
+    CC --> APP[App.tsx]
+    SW[service-worker.js + manifest] --> PWA[installable/offline]
 ```
 
-## How it works
+## Stack
 
-Arquitetura de componente em arquivo único (`App.tsx`): toda a UI, estado e lógica vivem em um arquivo para simplicidade de deploy e build zero-config.
+- React 18.3, TypeScript ~5.6, Tailwind
+- Vite 5.4 (build), Vitest 2.1 (tests)
 
-Decisões arquiteturais principais:
-- **Estado global** via `useState` + `useMemo` (evita overhead do Context API)
-- **Agregações memoizadas** para gráficos e insights
-- **Dados mock in-line** como constantes TypeScript para prototipagem sem backend
-- **IA baseada em regras** (`getAIResponse`) ,  determinística, offline, custo zero
+## Repository layout
 
----
+```
+calculadora-financeira-pwa/
+├── src/
+│   ├── components/          # CompoundInterest, Amortization, Budget, CalculatorCard
+│   ├── utils/calculations.ts + calculations.test.ts
+│   ├── registerSW.ts · main.tsx · App.tsx
+├── public/                  # manifest.json, service-worker.js, icons 192/512
+├── index.html · vite.config.ts
+└── package.json
+```
 
-## Capabilities
+## Prerequisites and installation
 
-| Capacidade | Descrição |
-|------------|-------------|
-| Dashboard | 6 cards de métricas (Saldo, Receitas, Despesas, Economia, Investimentos, Patrimônio) |
-| Fluxo de Caixa | Gráfico de barras (7d/30d) com Recharts ,  Receitas, Despesas, Saldo por período |
-| Orçamentos | Orçamentos por categoria com barras de progresso, alertas de estouro |
-| Metas | Anéis de progresso com cálculo de economia mensal e contagem regressiva |
-| Assistente IA | Chat baseado em regras (getAIResponse) ,  análise de gastos, dicas, projeções |
-| Insights | Alertas automáticos: picos de delivery, crescimento patrimonial, breakdown por categoria |
-| Transações | Adicionar/editar receitas/despesas com categorias, tags, seletor de data |
-| Persistência | localStorage ,  estado sobrevive a reload, zero backend |
+Node.js ≥ 18.
 
+```bash
+npm install
+```
 
----
+## How to run
 
+```bash
+npm run dev        # dev server
+npm run build      # production build
+npm run preview    # serves the build (where the SW/PWA is exercised)
+```
 
+## Tests and quality
 
----
+Real commands (verified by the agent):
 
-## FAQ
+```bash
+npm test
+# Test Files  1 passed (1) · Tests  7 passed (7)
 
-<details>
-<summary><strong>What is this project?</strong></summary>
+npm run build
+# ✓ built in ~1.3s
+```
 
-A React/TypeScript study/project demonstrating core concepts.
+## Technical decisions and trade-offs
 
-</details>
+- **Hand-rolled Service Worker** (no vite-pwa plugin): full control and zero extra dependencies; the trade-off is manual caching.
+- **Pure financial logic in `utils/`**: testable without rendering; the UI only presents.
 
-<details>
-<summary><strong>How do I run it?</strong></summary>
+## Known limitations and roadmap
 
-See [Quick Start](#quick-start) for copy-paste commands.
+- No scenario persistence (each calculation is ephemeral).
+- Amortisation follows the default model (no configurable SAC/PRICE tables beyond the implemented default).
 
-</details>
+## Development process
 
-<details>
-<summary><strong>Are there tests?</strong></summary>
+An individual project by Kelvin Oliveira, built with orchestrated AI agents and reviewed by the author.
 
-No automated tests in this repository.
+## License and author
 
-</details>
+MIT — Copyright (c) 2026 Kelvin Oliveira.
 
-<details>
-<summary><strong>Can I use this in production?</strong></summary>
-
-This is a **study/portfolio project**. Review and harden (auth, persistence, monitoring, etc.) before production use.
-
-</details>
-
-
-
----
-
-## Documentation
-
-- **Source Code** ,  Browse the `src/` directory for implementation details
-- **API Reference** ,  TypeScript types in source
-- **Architecture Diagram** ,  See [architecture.mermaid](docs/architecture.mermaid) (if present)
-- **Changelog** ,  [CHANGELOG.md](CHANGELOG.md) (if present)
-- **Contributing** ,  [CONTRIBUTING.md](CONTRIBUTING.md) (if present)
-
-## License
-
-[MIT](LICENSE) ,  Kelvin Oliveira
-
----
-
-<div align="center">
-
-**Built with** · TypeScript + React + Vite + Tailwind
-
-**Author** · [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
-
-</div>
+**Author**: [Kelvin Oliveira](https://github.com/KelvinOliveiraCode) · [Portfolio](https://kelvinoliveiracode.github.io/portfolio/)
